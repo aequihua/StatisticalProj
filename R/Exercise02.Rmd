@@ -18,10 +18,7 @@ The ToothGrowth data is composed of three columns: The dietary supplement code (
 
 The following is a partial view of the data:
 
-```{r, echo=FALSE, results='hide',warning=FALSE}
-library(datasets)
-data(ToothGrowth)
-tgdata <- ToothGrowth
+```{r, echo=FALSE, results='markup',warning=FALSE}
 head(tgdata)
 ```
 
@@ -32,7 +29,7 @@ library(ggplot2)
 g <- ggplot(tgdata, aes(x = dose, y = len, color=supp)) 
 g <- g + ggtitle("Growth of Tooth - Effect of varying doses")
 g <- g + labs(x = "Applied Dose", y = "Length of Tooth")
-g <- g + geom_point() + geom_smooth()
+g <- g + geom_point() + geom_smooth(method="loess")
 g <- g + facet_grid(. ~ supp)
 print(g)
 ```
@@ -44,7 +41,7 @@ One way to compare the two supplements is to compare the average result in tooth
 
 The following is the combined result of the 95% t-test confidence intervals of the difference in averages for supplement OJ and VC, for the 0.5, 1.0 and 2.0 mg doses:
 
-```{r, echo=FALSE, results='asis',warning=FALSE}
+```{r, echo=FALSE, results='markup',warning=FALSE}
 # T tests
 confi <- function(x) {
   df <- as.data.frame(x)
