@@ -1,0 +1,17 @@
+{
+    "contents" : "# Los pollos hermanos\nlibrary(datasets); data(ChickWeight); library(reshape2)\n##define weight gain or loss\nwideCW <- dcast(ChickWeight, Diet + Chick ~ Time, value.var = \"weight\")\nnames(wideCW)[-(1 : 2)] <- paste(\"time\", names(wideCW)[-(1 : 2)], sep = \"\")\nlibrary(dplyr)\nwideCW <- mutate(wideCW,\n                 gain = time21 - time0\n)\n\n# Grafico basico\ng <- ggplot(ChickWeight, aes(x = Time, y = weight, \n                             colour = Diet, group = Chick))\ng <- g + geom_line()\ng <- g + stat_summary(aes(group = 1), geom = \"line\", fun.y = mean, size = 1, col = \"black\")\ng <- g + facet_grid(. ~ Diet)\ng\n\n# Grafico de violin\ng <- ggplot(wideCW, aes(x = factor(Diet), y = gain, fill = factor(Diet)))\ng <- g + geom_violin(col = \"black\", size = 2)\ng\n\n# T test\nwideCW14 <- subset(wideCW, Diet %in% c(1, 4))\nrbind(\n  t.test(gain ~ Diet, paired = FALSE, var.equal = TRUE, data = wideCW14)$conf,\n  t.test(gain ~ Diet, paired = FALSE, var.equal = FALSE, data = wideCW14)$conf\n)\n",
+    "created" : 1429907875883.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2897530319",
+    "id" : "A1351835",
+    "lastKnownWriteTime" : 1429907963,
+    "path" : "~/StatisticalProj/R/PollosHermanos.R",
+    "project_path" : "R/PollosHermanos.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}

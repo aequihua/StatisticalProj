@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# Grab the ToothGrowth dataset\nlibrary(datasets)\ndata(ToothGrowth)\ntgdata <- ToothGrowth\n\n# Tabulate the mean and var per group\nlibrary(dplyr)\n\n\n# Exploratory charts, understand the data\nlibrary(ggplot2)\n\n# Basic scatterplot\ng <- ggplot(tgdata, aes(x = dose, y = len, color=supp)) \ng <- g + ggtitle(\"Growth of Tooth - Effect of varying doses\")\ng <- g + labs(x = \"Applied Dose\", y = \"Length of Tooth\")\ng <- g + geom_point() + geom_smooth()\ng <- g + facet_grid(. ~ supp)\nprint(g)\n\ng <- ggplot(tgdata, aes(x = supp, y = len, color = dose)) \ng <- g + ggtitle(\"Growth of Tooth - Comparison of two supplements\")\ng <- g + labs(x = \"Supplement\", y = \"Length of Tooth\")\ng <- g + geom_point()\nprint(g)\n\n# T tests\nconfi <- function(x) {\n  df <- as.data.frame(x)\n  names(df) <- c(\"len\",\"supp\",\"dose\")\n  t.test(len ~ supp, paired=FALSE, var.equal=FALSE, data=df)$conf\n}\ndivtg = split(tgdata, tgdata$dose)\nresult = data.frame(from=c(0,0,0), to=c(0,0,0))\nfor (i in 1:length(divtg))\n{\n   x = confi(divtg[i])\n   result[i,]$from <- x[1]\n   result[i,]$to <- x[2]\n}",
+    "created" : 1429903546582.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3332540804",
+    "id" : "4ADDF55C",
+    "lastKnownWriteTime" : 1429914445,
+    "path" : "~/StatisticalProj/R/Exercise02.R",
+    "project_path" : "R/Exercise02.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
